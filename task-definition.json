@@ -1,0 +1,23 @@
+{
+    "family": "juice-shop-task",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+      {
+        "name": "juice-shop-container",
+        "image": "bkimminich/juice-shop",
+        "portMappings": [
+          {
+            "containerPort": 3000,
+            "hostPort": 3000,
+            "protocol": "tcp"
+          }
+        ],
+        "essential": true
+      }
+    ],
+    "requiresCompatibilities": [
+      "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+  }
