@@ -170,7 +170,7 @@ After creating these resources, note down the following IDs. You'll need them fo
 1. Security Group ID: Find this in the "Security Groups" section of the VPC dashboard
 2. Subnet IDs: Go to "Subnets" in the VPC dashboard and note the IDs of the public subnets you created
 
-Update your `.env.local` file with these IDs:
+Create and Update your `.env.local` file with these IDs:
 
 ```
 SECURITY_GROUP_ID=sg-xxxxxxxxxxxxxxxxx
@@ -199,19 +199,7 @@ Create the ECS Task Execution Role in the AWS Console:
 
 This role will be used by ECS to execute tasks on your behalf. You don't need to attach it to your IAM user; instead, you'll reference it in your task definition.
 
-### 5. Environment Variables
-
-Create a `.env.local` file in the project root with the following content:
-
-```
-SECURITY_GROUP_ID=sg-xxxxxxxxxxxxxxxxx
-SUBNET_IDS=subnet-xxxxxxxxxxxxxxxxx,subnet-yyyyyyyyyyyyyyyyy
-AWS_REGION=us-east-1
-```
-
-Replace the placeholders with your actual AWS resource IDs. Do not commit this file to version control.
-
-### 6. Task Definition
+### 5. Task Definition
 
 Update the `task-definition.json` file:
 
@@ -252,7 +240,7 @@ Update the `task-definition.json` file:
 
 Replace `YOUR_ACCOUNT_ID` with your actual AWS account ID. You can find your account ID by clicking on your account name in the top right corner of the AWS Management Console.
 
-### 7. Deployment Script
+### 6. Deployment Script
 
 Ensure the `deploy.sh` script is executable:
 
