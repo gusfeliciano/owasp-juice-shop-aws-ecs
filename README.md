@@ -129,7 +129,59 @@ aws configure --profile juice-shop
 
 Enter your AWS Access Key ID, Secret Access Key, default region (e.g., us-east-1), and preferred output format.
 
-### 3. ECS Task Execution Role
+### 3. Network Setup
+
+Before we can deploy our ECS tasks, we need to set up the necessary network resources.
+
+#### Create a VPC
+
+1. Go to the VPC dashboard in the AWS Management Console
+2. Click "Create VPC"
+3. Choose "VPC and more"
+4. Configure the following:
+   - Name tag auto-generation: Check this box
+   - Name: juice-shop-vpc
+   - IPv4 CIDR block: 10.0.0.0/16
+   - Number of Availability Zones (AZs): 2
+   - Number of public subnets: 2
+   - Number of private subnets: 2
+   - NAT gateways: In 1 AZ
+   - VPC endpoints: None
+5. Click "Create VPC"
+
+#### Create a Security Group
+
+1. In the VPC dashboard, click on "Security Groups" in the left sidebar
+2. Click "Create security group"
+3. Configure the following:
+   - Security group name: juice-shop-sg
+   - Description: Security group for Juice Shop ECS tasks
+   - VPC: Select the VPC you just created (juice-shop-vpc)
+4. In the "Inbound rules" section, click "Add rule" and set:
+   - Type: Custom TCP
+   - Port range: 3000
+   - Source: Anywhere-IPv4 (0.0.0.0/0)
+5. Click "Create security group"
+
+#### Note the Resource IDs
+
+After creating these resources, note down the following IDs. You'll need them for your `.env.local` file:
+
+1. Security Group ID: Find this in the "Security Groups" section of the VPC dashboard
+2. Subnet IDs: Go to "Subnets" in the VPC dashboard and note the IDs of the public subnets you created
+
+Update your `.env.local` file with these IDs:
+
+```
+SECURITY_GROUP_ID=sg-xxxxxxxxxxxxxxxxx
+SUBNET_IDS=subnet-xxxxxxxxxxxxxxxxx,subnet-yyyyyyyyyyyyyyyyy
+AWS_REGION=us-east-1
+```
+
+Replace the placeholders with your actual resource IDs.
+
+
+### 4. ECS Task Execution Role
 
 Create the ECS Task Execution Role in the AWS Console:
 
@@ -147,7 +199,7 @@ Create the ECS Task Execution Role in the AWS Console:
 
 This role will be used by ECS to execute tasks on your behalf. You don't need to attach it to your IAM user; instead, you'll reference it in your task definition.
 
-### 4. Environment Variables
+### 5. Environment Variables
 
 Create a `.env.local` file in the project root with the following content:
 
@@ -159,7 +211,7 @@ AWS_REGION=us-east-1
 
 Replace the placeholders with your actual AWS resource IDs. Do not commit this file to version control.
 
-### 5. Task Definition
+### 6. Task Definition
 
 Update the `task-definition.json` file:
 
@@ -200,7 +252,7 @@ Update the `task-definition.json` file:
 
 Replace `YOUR_ACCOUNT_ID` with your actual AWS account ID. You can find your account ID by clicking on your account name in the top right corner of the AWS Management Console.
 
-### 6. Deployment Script
+### 7. Deployment Script
 
 Ensure the `deploy.sh` script is executable:
 
