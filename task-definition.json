@@ -1,6 +1,7 @@
 {
     "family": "juice-shop-task",
     "networkMode": "awsvpc",
+    "executionRoleArn": "arn:aws:iam::011528301398:role/ecsTaskExecutionRole",
     "containerDefinitions": [
       {
         "name": "juice-shop-container",
@@ -12,7 +13,15 @@
             "protocol": "tcp"
           }
         ],
-        "essential": true
+        "essential": true,
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/juice-shop",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "ecs"
+          }
+        }
       }
     ],
     "requiresCompatibilities": [
