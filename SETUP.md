@@ -220,6 +220,8 @@ This script will:
 
 Note: The `deploy.sh` script will automatically replace `${AWS_ACCOUNT_ID}` in the task definition with the actual AWS account ID from your `.env.local` file.
 
+![Deploy Script Output](./assets/deploy-script-output.png)
+
 ## Accessing the Deployed Juice Shop
 
 After successful deployment, follow these steps to access your Juice Shop instance:
