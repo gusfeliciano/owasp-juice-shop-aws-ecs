@@ -23,8 +23,11 @@ fi
 
 # Register the task definition
 echo "Registering task definition..."
-TASK_DEFINITION=$(aws ecs register-task-definition --cli-input-json file://task-definition.json --region $AWS_REGION)
+# Replace AWS_ACCOUNT_ID in task definition
+sed "s/\${AWS_ACCOUNT_ID}/$AWS_ACCOUNT_ID/g" task-definition.json > task-definition-temp.json
+TASK_DEFINITION=$(aws ecs register-task-definition --cli-input-json file://task-definition-temp.json --region $AWS_REGION)
 TASK_REVISION=$(echo $TASK_DEFINITION | jq --raw-output '.taskDefinition.revision')
+rm task-definition-temp.json
 
 # Check if service exists
 SERVICE_STATUS=$(aws ecs describe-services --cluster $CLUSTER_NAME --services $SERVICE_NAME --query 'services[0].status' --output text --region $AWS_REGION)

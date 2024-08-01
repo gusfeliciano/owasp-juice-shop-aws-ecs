@@ -15,9 +15,11 @@ The purpose of this project is to:
 
 - [Setup Instructions](SETUP.md)
 - [Architecture Overview](#architecture-overview)
+- [Security Considerations](#security-considerations)
 - [Prerequisites](#Prerequisites)
 - [Learning Outcomes](#learning-outcomes)
 - [Juice Shop Exercises](#juice-shop-exercises)
+- [Keeping the Project Updated](#keeping-the-project-updated)
 
 ## Architecture Overview
 
@@ -46,6 +48,39 @@ This project utilizes a microservices architecture deployed on AWS, leveraging s
    - Manages access to AWS services and resources securely
 
 This architecture ensures scalability, security, and ease of management for our OWASP Juice Shop deployment.
+
+## Security Considerations
+
+While OWASP Juice Shop is intentionally vulnerable for learning purposes, we implement several security measures in our AWS deployment:
+
+1. **Network Security**:
+   - Use of VPC with proper network segmentation
+   - Security Groups to control inbound and outbound traffic
+   - Private subnets for ECS tasks, with internet access through NAT Gateways
+
+2. **Access Control**:
+   - IAM roles and policies following the principle of least privilege
+   - No hard-coded AWS credentials in our codebase
+
+3. **Data in Transit**:
+   - HTTPS enabled on ALB with AWS Certificate Manager
+
+4. **Monitoring and Logging**:
+   - CloudWatch for centralized logging and monitoring
+   - CloudTrail for AWS API call history and security analysis
+
+5. **Container Security**:
+   - Regular updates of the OWASP Juice Shop image
+   - Scanning Docker images for vulnerabilities before deployment
+
+6. **Compliance**:
+   - Tagging strategy for resource tracking and cost allocation
+
+7. **Environment Variables**:
+   - Sensitive information like AWS account ID and resource IDs are stored in a `.env.local` file
+   - This file is not committed to version control to prevent exposing sensitive data
+
+Note: As OWASP Juice Shop is intentionally vulnerable, it should never be deployed in a production environment or connected to any sensitive systems or data.
 
 ## Prerequisites
 
@@ -95,3 +130,12 @@ Here's a list of the Juice Shop exercises I've completed, with links to detailed
 1. [Exercise 1: Finding the Score Board](exercises/exercise1.md)
 2. TBD
 <!-- Add more exercises as you complete them -->
+
+## Keeping the Project Updated
+
+To ensure you're using the latest version of OWASP Juice Shop and to maintain security:
+
+1. Regularly pull the latest Juice Shop Docker image
+2. Update your task definition with the new image if needed
+3. Redeploy your ECS service using the `deploy.sh` script
+4. Keep your AWS CLI and other tools updated

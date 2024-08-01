@@ -131,6 +131,7 @@ Create and Update your `.env.local` file with these IDs:
 SECURITY_GROUP_ID=sg-xxxxxxxxxxxxxxxxx
 SUBNET_IDS=subnet-xxxxxxxxxxxxxxxxx,subnet-yyyyyyyyyyyyyyyyy
 AWS_REGION=us-east-1
+AWS_ACCOUNT_ID=YOUR_AWS_ACCOUNT_ID
 ```
 
 Replace the placeholders with your actual resource IDs.
@@ -162,7 +163,7 @@ Update the `task-definition.json` file:
 {
   "family": "juice-shop-task",
   "networkMode": "awsvpc",
-  "executionRoleArn": "arn:aws:iam::YOUR_ACCOUNT_ID:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::${AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
       "name": "juice-shop-container",
@@ -195,6 +196,7 @@ Update the `task-definition.json` file:
 
 Replace `YOUR_ACCOUNT_ID` with your actual AWS account ID. You can find your account ID by clicking on your account name in the top right corner of the AWS Management Console.
 
+
 ### 6. Deployment Script
 
 Ensure the `deploy.sh` script is executable:
@@ -216,6 +218,8 @@ This script will:
 2. Register the task definition
 3. Create or update the ECS service
 
+Note: The `deploy.sh` script will automatically replace `${AWS_ACCOUNT_ID}` in the task definition with the actual AWS account ID from your `.env.local` file.
+
 ## Accessing the Deployed Juice Shop
 
 After successful deployment, follow these steps to access your Juice Shop instance:
@@ -227,35 +231,6 @@ After successful deployment, follow these steps to access your Juice Shop instan
 5. Open a web browser and navigate to `http://<Public-IP>:3000`
 
 Note: The IP address may change if the task is stopped and restarted. For a stable URL, consider setting up an Application Load Balancer.
-
-## Security Considerations
-
-While OWASP Juice Shop is intentionally vulnerable for learning purposes, we implement several security measures in our AWS deployment:
-
-1. **Network Security**:
-   - Use of VPC with proper network segmentation
-   - Security Groups to control inbound and outbound traffic
-   - Private subnets for ECS tasks, with internet access through NAT Gateways
-
-2. **Access Control**:
-   - IAM roles and policies following the principle of least privilege
-   - No hard-coded AWS credentials in our codebase
-
-3. **Data in Transit**:
-   - HTTPS enabled on ALB with AWS Certificate Manager
-
-4. **Monitoring and Logging**:
-   - CloudWatch for centralized logging and monitoring
-   - CloudTrail for AWS API call history and security analysis
-
-5. **Container Security**:
-   - Regular updates of the OWASP Juice Shop image
-   - Scanning Docker images for vulnerabilities before deployment
-
-6. **Compliance**:
-   - Tagging strategy for resource tracking and cost allocation
-
-Note: As OWASP Juice Shop is intentionally vulnerable, it should never be deployed in a production environment or connected to any sensitive systems or data.
 
 ## Cleanup
 
