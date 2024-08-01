@@ -15,12 +15,11 @@ The purpose of this project is to:
 
 - [Setup Instructions](SETUP.md)
 - [Architecture Overview](#architecture-overview)
-- [Security Considerations](#security-considerations)
-- [Juice Shop Exercises](#juice-shop-exercises)
+- [Prerequisites](#Prerequisites)
 - [Learning Outcomes](#learning-outcomes)
-- [Troubleshooting](#troubleshooting)
+- [Juice Shop Exercises](#juice-shop-exercises)
 
-## Architecture
+## Architecture Overview
 
 This project utilizes a microservices architecture deployed on AWS, leveraging several key services:
 
