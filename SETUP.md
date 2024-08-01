@@ -234,6 +234,8 @@ After successful deployment, follow these steps to access your Juice Shop instan
 
 Note: The IP address may change if the task is stopped and restarted. For a stable URL, consider setting up an Application Load Balancer.
 
+![Juice Show Initial Homepage](./assets/juice-shop-homepage.jpeg)
+
 ## Cleanup
 
 To avoid ongoing charges, remember to delete your AWS resources when you're done:
