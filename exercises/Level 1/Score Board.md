@@ -1,4 +1,4 @@
-# Exercise 1: Finding the Score Board
+# Challenge: Finding the Score Board
 
 Find the carefully hidden 'Score Board' page.
 
